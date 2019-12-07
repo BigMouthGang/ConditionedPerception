@@ -23,7 +23,7 @@ def make_s(num_points, motion_coherence):
     motions = np.random.uniform(low=-np.pi, high=np.pi, size = num_points)
     # set N/MC of the particles to the same value
     num_coherent = int(num_points * motion_coherence)
-    motions[:num_points] = theta
+    motions[:num_coherent] = theta
     return angle_mean(motions)
     
 
