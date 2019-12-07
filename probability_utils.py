@@ -43,11 +43,8 @@ def p_h_given_m(h, m, MC, prior_on_left, alpha):
     return num*p_h(h, prior_on_left)
 
 def p_theta_given_m(m, hmap, theta, MC, alpha):
-    print(m, theta)
     num = p_m_given_theta_h(theta, hmap, MC).pdf(m)*p_theta_given_h(hmap, alpha).pdf(theta)
     denom = p_m_given_h(m, hmap, MC, alpha)
-    print(num)
-    print(denom)
     return num/denom
 
 

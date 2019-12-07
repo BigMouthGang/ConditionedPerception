@@ -3,7 +3,7 @@ import probability_utils
 
 
 alpha = 20*2*np.pi/360  #20 deg in radians
-theta = 0.01#np.random.uniform(-alpha, alpha)
+theta = -0.01#np.random.uniform(-alpha, alpha)
 
 
 def angle_mean(thetas):
@@ -41,18 +41,19 @@ def normalize_angle(ang):
     return ang
 
 def main():
-    MC = 0.03
-    num_points = 100
+    MC = 0.12
+    num_points = 1000
     prior_on_left = 0.5
     s = make_s(num_points, MC)
     print("s: ", s)
     m = normalize_angle(add_noise(s, num_points, MC))
     print("m: ", m)
     p_h_m_left = probability_utils.p_h_given_m('left', m, MC, prior_on_left, alpha)
-    print(p_h_m_left)
+    
     
     p_h_m_right = probability_utils.p_h_given_m('right', m, MC, prior_on_left, alpha)
-    print(p_h_m_right)
+    print("p left: ", p_h_m_left/(p_h_m_left + p_h_m_right))
+    print("p right: ", p_h_m_right/(p_h_m_left + p_h_m_right))
     if p_h_m_left >= p_h_m_right:
         hmap = 'left'
     else:
