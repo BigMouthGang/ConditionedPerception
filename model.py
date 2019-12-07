@@ -1,6 +1,6 @@
 import numpy as np
 
-alpha = 0.3490658504 #20 deg in radians
+alpha = 20*2*np.pi/360  #20 deg in radians
 theta = np.random.uniform(-alpha, alpha)
 
 
