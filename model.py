@@ -3,7 +3,7 @@ import probability_utils
 
 
 alpha = 20*2*np.pi/360  #20 deg in radians
-theta = -0.01#np.random.uniform(-alpha, alpha)
+# theta = -0.01#np.random.uniform(-alpha, alpha)
 
 
 def angle_mean(thetas):
@@ -40,7 +40,7 @@ def normalize_angle(ang):
         ang -= 2*np.pi
     return ang
 
-def main():
+def main(theta):
     MC = 0.12
     num_points = 1000
     prior_on_left = 0.5
@@ -68,6 +68,9 @@ def main():
         if p_theta > max_p_theta:
             max_theta = theta
             max_p_theta = p_theta
-    print(max_theta)
+    return max_theta, p_h_m_right/(p_h_m_left + p_h_m_right)
+
+
 if __name__ == "__main__":
-    main()
+    
+    max_theta, p_right = main(theta)
