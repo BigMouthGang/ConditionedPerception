@@ -15,7 +15,7 @@ def angle_mean(thetas):
     """
     x = np.mean(np.cos(thetas))
     y = np.mean(np.sin(thetas))
-    theta_mean = np.atan2(y, x)
+    theta_mean = np.arctan2(y, x)
     return theta_mean
 
 
