@@ -79,46 +79,54 @@ if __name__ == "__main__":
         0.06: [1, 0, 0],
         0.12: [0, 1, 0]
     }
-    MC_thetas = {}
-    MC_probs = {}
-    for MC in [0.03, 0.06, 0.12]:
-        print("MC: ", MC)
-        thetas = []
-        max_thetas= []
-        probs = []
-        for theta in np.linspace(-alpha, alpha, 2*num_datapoints_on_each_side+1):
-            tot_angle = []
-            tot_probability = 0
-            for i in range(num_iterations):
-                max_theta, p_right = main(theta, MC)
-                tot_angle.append(max_theta)
-                tot_probability+=p_right
-            mean_angle = angle_mean(np.array(tot_angle))
-            max_thetas.append(mean_angle * 360 / (2*np.pi))
-            probs.append(tot_probability/num_iterations) 
-            thetas.append(theta * 360/(2*np.pi))
-            print("result: ", theta, mean_angle, tot_probability/num_iterations)
-        # ax.plot(thetas, max_thetas, color=color_dic[MC], label="Motion Coherence of: %s" %MC)
-        # ax.plot(thetas, probs, color=color_dic[MC], label="Motion Coherence of: %s"%MC)
-        MC_thetas[MC] = max_thetas
-        MC_probs[MC] = probs
-        print(thetas)
-        print(max_thetas)
-        print(probs)
-    print(MC_thetas)
-    print(MC_probs)
-    print(thetas)
+    # MC_thetas = {}
+    # MC_probs = {}
+    # for MC in [0.03, 0.06, 0.12]:
+    #     print("MC: ", MC)
+    #     thetas = []
+    #     max_thetas= []
+    #     probs = []
+    #     for theta in np.linspace(-alpha, alpha, 2*num_datapoints_on_each_side+1):
+    #         tot_angle = []
+    #         tot_probability = 0
+    #         for i in range(num_iterations):
+    #             max_theta, p_right = main(theta, MC)
+    #             tot_angle.append(max_theta)
+    #             tot_probability+=p_right
+    #         mean_angle = angle_mean(np.array(tot_angle))
+    #         max_thetas.append(mean_angle * 360 / (2*np.pi))
+    #         probs.append(tot_probability/num_iterations) 
+    #         thetas.append(theta * 360/(2*np.pi))
+    #         print("result: ", theta, mean_angle, tot_probability/num_iterations)
+    #     # ax.plot(thetas, max_thetas, color=color_dic[MC], label="Motion Coherence of: %s" %MC)
+    #     # ax.plot(thetas, probs, color=color_dic[MC], label="Motion Coherence of: %s"%MC)
+    #     MC_thetas[MC] = max_thetas
+    #     MC_probs[MC] = probs
+    #     print(thetas)
+    #     print(max_thetas)
+    #     print(probs)
+    # print(MC_thetas)
+    # print(MC_probs)
+    # print(thetas)
     
     max_theta_pickle_path = "pickled_data/max_thetas_%s_datapoints_%s_iterations" %(num_datapoints_on_each_side*2+1, num_iterations)
     probs_pickle_path = "pickled_data/probs_to_right_%s_datapoints_%s_iterations" %(num_datapoints_on_each_side*2+1, num_iterations)
     thetas_pickle_path = "pickled_data/thetas_linspace_%s_datapoints_%s_iterations" %(num_datapoints_on_each_side*2+1, num_iterations)
 
-    with open(max_theta_pickle_path, 'wb') as f:
-        pickle.dump(MC_thetas, f)
-    with open(probs_pickle_path, 'wb') as f:
-        pickle.dump(MC_probs, f)
-    with open(thetas_pickle_path, 'wb') as f:
-        pickle.dump(thetas)
+    # with open(max_theta_pickle_path, 'wb') as f:
+    #     pickle.dump(MC_thetas, f)
+    # with open(probs_pickle_path, 'wb') as f:
+    #     pickle.dump(MC_probs, f)
+    # with open(thetas_pickle_path, 'wb') as f:
+    #     pickle.dump(thetas)
+
+
+    with open(max_theta_pickle_path, 'rb') as f:
+        MC_thetas = pickle.load(f)
+    with open(probs_pickle_path, 'rb') as f:
+        MC_probs = pickle.load(f)
+    with open(thetas_pickle_path, 'rb') as f:
+        thetas = pickle.load(f)
 
     #plot max thetas
     fig, ax = plt.subplots(1, 1)
@@ -134,7 +142,6 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(1, 1)
     for MC in [0.03, 0.06, 0.12]:
         ax.plot(thetas, MC_probs[MC], color=color_dic[MC], label="Motion Coherence of: %s"%MC)
-    plt.plot(thetas, probs)
     plt.xlabel("Actual Degree")
     plt.ylabel("Fraction motion right of reference")
     ax.legend()
