@@ -1,6 +1,7 @@
 import numpy as np
 import probability_utils
 import matplotlib.pyplot as plt
+import pickle
 
 alpha = 20*2*np.pi/360  #20 deg in radians
 # theta = -0.01#np.random.uniform(-alpha, alpha)
@@ -71,8 +72,8 @@ def main(theta, MC):
 
 
 if __name__ == "__main__":
-    num_iterations = 10
-    num_datapoints_on_each_side = 5
+    num_iterations = 40
+    num_datapoints_on_each_side = 7
     color_dic = {
         0.03: [0, 0, 1],
         0.06: [1, 0, 0],
@@ -96,6 +97,7 @@ if __name__ == "__main__":
             max_thetas.append(mean_angle * 360 / (2*np.pi))
             probs.append(tot_probability/num_iterations) 
             thetas.append(theta * 360/(2*np.pi))
+            print("result: ", theta, mean_angle, tot_probability/num_iterations)
         # ax.plot(thetas, max_thetas, color=color_dic[MC], label="Motion Coherence of: %s" %MC)
         # ax.plot(thetas, probs, color=color_dic[MC], label="Motion Coherence of: %s"%MC)
         MC_thetas[MC] = max_thetas
@@ -103,7 +105,21 @@ if __name__ == "__main__":
         print(thetas)
         print(max_thetas)
         print(probs)
+    print(MC_thetas)
+    print(MC_probs)
+    print(thetas)
     
+    max_theta_pickle_path = "pickled_data/max_thetas_%s_datapoints_%s_iterations" %(num_datapoints_on_each_side*2+1, num_iterations)
+    probs_pickle_path = "pickled_data/probs_to_right_%s_datapoints_%s_iterations" %(num_datapoints_on_each_side*2+1, num_iterations)
+    thetas_pickle_path = "pickled_data/thetas_linspace_%s_datapoints_%s_iterations" %(num_datapoints_on_each_side*2+1, num_iterations)
+
+    with open(max_theta_pickle_path, 'wb') as f:
+        pickle.dump(MC_thetas, f)
+    with open(probs_pickle_path, 'wb') as f:
+        pickle.dump(MC_probs, f)
+    with open(thetas_pickle_path, 'wb') as f:
+        pickle.dump(thetas)
+
     #plot max thetas
     fig, ax = plt.subplots(1, 1)
     for MC in [0.03, 0.06, 0.12]:
@@ -111,8 +127,8 @@ if __name__ == "__main__":
     plt.xlabel("Actual Degree")
     plt.ylabel("Estimated Direction")
     plt.title("Estimated Direction vs Actual Degree")
-    plt.savefig("plots/motion_estimation_main_MC_%s_datapoints_%s_iterations.png" %(num_datapoints_on_each_side*2+1, num_iterations))
     ax.legend()
+    plt.savefig("plots/motion_estimation_main_MC_%s_datapoints_%s_iterations.png" %(num_datapoints_on_each_side*2+1, num_iterations))
     plt.show()
 
     fig, ax = plt.subplots(1, 1)
@@ -121,6 +137,6 @@ if __name__ == "__main__":
     plt.plot(thetas, probs)
     plt.xlabel("Actual Degree")
     plt.ylabel("Fraction motion right of reference")
-    plt.savefig("plots/fraction_to_the_right_MC_%s_datapoints_%s_iterations.png" %(num_datapoints_on_each_side*2+1, num_iterations))
     ax.legend()
+    plt.savefig("plots/fraction_to_the_right_MC_%s_datapoints_%s_iterations.png" %(num_datapoints_on_each_side*2+1, num_iterations))
     plt.show()
