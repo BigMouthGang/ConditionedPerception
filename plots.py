@@ -119,7 +119,8 @@ def plot_smooth_motion_estimation_with_disconuity(datapoints, num_iterations):
 	plt.title("Estimated Degree vs Actual Degree")
 	ax.legend()
 
-	plt.show()
+	#plt.show()
+	plt.savefig("smoothed_plots/motion_estimation_main_MC_%s_datapoints_%s_iterations_smooth.png" %(datapoints, num_iterations))
 
 	fraction_degree_dict = {
 		0.03 : 2,
@@ -136,12 +137,11 @@ def plot_smooth_motion_estimation_with_disconuity(datapoints, num_iterations):
 	plt.xlabel("Actual Degree")
 	plt.ylabel("Fraction motion right of reference")
 	ax.legend()
-	#plt.savefig("plots/fraction_to_the_right_MC_%s_datapoints_%s_iterations_v2.png" %(num_datapoints_on_each_side*2+1, num_iterations))
-	plt.show()
+	plt.savefig("smoothed_plots/fraction_to_the_right_MC_%s_datapoints_%s_iterations_smooth.png" %(datapoints, num_iterations))
+	#plt.show()
 
     #plt.savefig("plots/motion_estimation_main_MC_%s_datapoints_%s_iterations_v2.png" %(num_datapoints_on_each_side*2+1, num_iterations))
     #plt.show()   
 
 if __name__ == '__main__':
 	plot_smooth_motion_estimation_with_disconuity(15,40)
-	#plot_uniform_theta()
