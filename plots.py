@@ -50,9 +50,7 @@ def fit_polynomial(thetas, MC_thetas, MC):
 	return X, Z
 
 
-def fit_polynomial_direction(thetas, MC_thetas, MC):
-
-	degree = 2
+def fit_polynomial_direction(thetas, MC_thetas, MC, degree=2):
 
 	zero_index = thetas.index(0)
 
@@ -100,6 +98,13 @@ def plot_smooth_motion_estimation_with_disconuity(datapoints, num_iterations):
 		MC_probs = pickle.load(f)
 	with open(thetas_pickle_path, 'rb') as f:
 		thetas = pickle.load(f)
+
+	direction_degree_dict = {
+		0.03 : 2,
+		0.06 : 2,
+		0.12 : 2
+	}
+
 
 	fig, ax = plt.subplots(1, 1)
 	for MC in [0.03, 0.06, 0.12]:
