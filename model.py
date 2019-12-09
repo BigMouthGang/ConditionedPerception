@@ -21,6 +21,7 @@ def angle_mean(thetas):
 
 
 def make_s(num_points, motion_coherence, theta):
+    # return theta
     motions = np.random.uniform(low=-np.pi, high=np.pi, size = num_points)
     # set N/MC of the particles to the same value
     num_coherent = int(num_points * motion_coherence)
@@ -29,7 +30,7 @@ def make_s(num_points, motion_coherence, theta):
     
 
 def add_noise(s, num_points, motion_coherence, mean = 0):
-    var = 1/motion_coherence/100
+    var = 1/motion_coherence/200
     noise = np.random.normal(mean, var)
     print("noise: ", noise)
     return s + noise
@@ -42,7 +43,7 @@ def normalize_angle(ang):
     return ang
 
 def main(theta, MC):
-    num_points = 1000
+    num_points = 10000
     prior_on_left = 0.5
     s = make_s(num_points, MC, theta)
     print("s: ", s)
@@ -62,8 +63,9 @@ def main(theta, MC):
 
     max_theta = None
     max_p_theta = 0
-    epsilon = 0.5
-    for th in np.linspace(-alpha , alpha, 100):#np.linspace(-alpha, alpha, 10):
+    epsilon = 0.05
+    #half a degree increments
+    for th in np.linspace(-alpha-epsilon, alpha+epsilon, 40):#np.linspace(-alpha, alpha, 10):
         p_theta = probability_utils.p_theta_given_m(m, hmap, th, MC, alpha)
         if p_theta > max_p_theta:
             max_theta = th
@@ -72,8 +74,8 @@ def main(theta, MC):
 
 
 if __name__ == "__main__":
-    num_iterations = 3
-    num_datapoints_on_each_side = 7
+    num_iterations = 2
+    num_datapoints_on_each_side = 3
     color_dic = {
         0.03: [0, 0, 1],
         0.06: [1, 0, 0],
@@ -87,6 +89,11 @@ if __name__ == "__main__":
         max_thetas= []
         probs = []
         for theta in np.linspace(-alpha, alpha, 2*num_datapoints_on_each_side+1):
+            if theta == 0:
+                thetas.append(0)
+                max_thetas.append(0)
+                # probs.append(0)
+                # continue
             tot_angle = []
             tot_probability = 0
             for i in range(num_iterations):
@@ -118,7 +125,7 @@ if __name__ == "__main__":
     with open(probs_pickle_path, 'wb') as f:
         pickle.dump(MC_probs, f)
     with open(thetas_pickle_path, 'wb') as f:
-        pickle.dump(thetas,f)
+        pickle.dump(thetas, f)
 
 
     # with open(max_theta_pickle_path, 'rb') as f:
