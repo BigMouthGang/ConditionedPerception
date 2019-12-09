@@ -24,30 +24,30 @@ def plot_uniform_theta(alpha = np.pi/9):
 	plt.savefig('plots/uniform_theta.png')
 
 
-def fit_polynomial(thetas, MC_thetas, MC):
+# def fit_polynomial(thetas, MC_thetas, MC):
 
-	degree = 4
+# 	degree = 4
 
-	zero_index = thetas.index(0)
+# 	zero_index = thetas.index(0)
 
-	th1 = thetas[:zero_index]
-	th2 = thetas[zero_index + 1:]
-	y1 = MC_thetas[MC][:zero_index]
-	y2 = MC_thetas[MC][zero_index + 1:]
+# 	th1 = thetas[:zero_index]
+# 	th2 = thetas[zero_index + 1:]
+# 	y1 = MC_thetas[MC][:zero_index]
+# 	y2 = MC_thetas[MC][zero_index + 1:]
 
 	
-	p1 = np.polyfit(th1, y1, degree)
-	p2 = np.polyfit(th2,y2, degree)
+# 	p1 = np.polyfit(th1, y1, degree)
+# 	p2 = np.polyfit(th2,y2, degree)
 
-	x1 = np.linspace(min(th1), max(th1), 100)
-	x2 = np.linspace(min(th2), max(th2), 100)
+# 	x1 = np.linspace(min(th1), max(th1), 100)
+# 	x2 = np.linspace(min(th2), max(th2), 100)
 
-	z1 = np.polyval(p1, x1)
-	z2 = np.polyval(p2, x2)
+# 	z1 = np.polyval(p1, x1)
+# 	z2 = np.polyval(p2, x2)
 
-	X = list(x1) + [0] + list(x2)
-	Z = list(z1) + [np.nan] + list(z2)
-	return X, Z
+# 	X = list(x1) + [0] + list(x2)
+# 	Z = list(z1) + [np.nan] + list(z2)
+# 	return X, Z
 
 
 def fit_polynomial_direction(thetas, MC_thetas, MC, degree=2):
